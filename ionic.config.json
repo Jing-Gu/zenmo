@@ -1,0 +1,7 @@
+{
+  "name": "zenmo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
