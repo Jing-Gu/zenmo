@@ -1,0 +1,21 @@
+<div class='branding'>
+  <img class="logo" src='assets/logo.png' alt=''>
+  <span>Zenmo 1.0.0</span>
+</div>
+
+<ion-list>
+  <ion-item button detail="false" mode='ios'>
+    <ion-icon slot="start" name="star-outline" color="primary"></ion-icon>
+    <ion-label>Rate us</ion-label>
+  </ion-item>
+  <ion-item button detail="false" mode='ios' (click)="recommendApp()">
+    <ion-icon  slot="start" name="share-social-outline" color="primary"></ion-icon>
+    <ion-label>Share Zenmo</ion-label>
+  </ion-item>
+</ion-list>
+
+<div class='device-info'>
+  <span>Model: {{model}}</span>
+  <span>OS Version: {{os}} {{osVersion}}</span>
+</div>
+

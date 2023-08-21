@@ -24,3 +24,35 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+@font-face {
+  font-family: 'Inter', sans-serif;
+  src: url("assets/fonts/Inter-Regular.ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Inter', sans-serif;
+  src: url("assets/fonts/Inter-SemiBold.ttf");
+  font-weight: 600;
+  font-style: normal;
+}
+
+.alertbox {
+  .btnCancel {
+    color: var(--zen-pink) !important;
+    border: 1px solid var(--zen-pink) !important;
+  }
+  .btnSave {
+    border: 1px solid var(--zen-green-primary) !important;
+  }
+}
+
+.no-ripple {
+  --ripple-color: transparent;
+}
+
+ion-item {
+  --background-activated: var(--zen-green-secondary);
+  --border-color: var(--zen-green-secondary);
+}

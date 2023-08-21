@@ -1,0 +1,57 @@
+<ng-container *ngIf="dbService.currentMemo$ | async as currentMemo">
+  <form [formGroup]="noteForm">
+    <ion-header class="ion-no-border">
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button [defaultHref]="memoTag ? 'folder/memo-list?tag={memoTag}' : 'folder/memo-list'"
+          icon="chevron-back-outline" (click)="updateMemo()"></ion-back-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button (click)="toggleTagsVisibility()">
+            <ion-icon name="pricetag-outline" color="primary"></ion-icon>
+          </ion-button>
+          <ion-button (click)="toggleMemoPin(currentMemo?.pinned)">
+            <ion-icon [name]="currentMemo?.pinned === 'yes' ? 'bookmark' : 'bookmark-outline'" color="primary"></ion-icon>
+          </ion-button>
+          <ion-button (click)="deleteMemo()">
+            <ion-icon name="trash-outline" color="danger"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ng-container *ngIf="memoReady; else loading">
+      <div class="details-wrapper">
+        <div class='tags-display'>
+          <ng-container *ngIf="showAllTags; else currentTag">
+            <ion-chip *ngFor="let tag of defaultTags" color="primary" [outline]="true" class="no-ripple"
+              (click)="setMemoTag(tag)">
+              <ion-label>{{tag}}</ion-label>
+            </ion-chip>
+            <ion-chip color="danger" [outline]="true" class="no-ripple" (click)="setMemoTag('none')">
+              <ion-label>Untag</ion-label>
+            </ion-chip>
+          </ng-container>
+          <ng-template #currentTag>
+            <ion-chip *ngIf="currentMemo?.tag !== 'none'" color="primary" class="no-ripple">
+              <ion-label>{{currentMemo?.tag}}</ion-label>
+            </ion-chip>
+          </ng-template>
+        </div>
+        <ion-textarea [(ngModel)]="currentMemo.title" autoGrow="true" placeholder="Title" class="note-title" formControlName="title"></ion-textarea>
+        <ion-textarea [(ngModel)]="currentMemo.content" autoGrow="true" formControlName="content"></ion-textarea>
+        <div class='date'>
+          <p *ngIf="currentMemo.creationTime">
+            Created: {{currentMemo?.creationTime | date: 'MM/dd/yyyy'}}
+          </p>
+          <p *ngIf="currentMemo.modifiedTime !== 'none'">
+            Modified: {{currentMemo?.modifiedTime | date: 'MM/dd/yyyy'}}
+          </p>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #loading>
+      <ion-spinner></ion-spinner>
+    </ng-template>
+  </form>
+</ng-container>

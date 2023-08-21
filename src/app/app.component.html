@@ -2,28 +2,55 @@
   <ion-split-pane contentId="main-content">
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
-        <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi@ionicframework.com</ion-note>
-
+        <ion-list id="menu-list">
+          <ion-list-header>zenmo</ion-list-header>
+          <ion-note>Just an unfussy Zen memo.</ion-note>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+            <ion-item routerDirection="root" [routerLink]="[p.url]" mode='ios' lines="none" detail="false" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">
+              <ion-icon slot="start" [name]="p.icon"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
 
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
+        <ng-container *ngIf="tags.length > 0">
+          <ion-list id="labels-list">
+            <!-- <ion-list-header>Labels</ion-list-header> -->
+            <!-- <ion-menu-toggle *ngFor="let label of labels">
+              <ion-item routerDirection="root" routerLink="folder/memo-list" [queryParams]="{tag: label.name}"
+                lines="none" mode="ios" detail="false" routerLinkActive="selected">
+                <ion-icon slot="start" [name]="label.icon"></ion-icon>
+                <ion-label>{{ label.name }}</ion-label>
+              </ion-item>
+            </ion-menu-toggle> -->
 
-          <ion-item *ngFor="let label of labels" lines="none">
-            <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-            <ion-label>{{ label }}</ion-label>
-          </ion-item>
-        </ion-list>
+            <div class='flex-line'>
+              <ion-list-header>Labels</ion-list-header>
+              <ion-button color="primary" outline="true" (click)="toggleEdit()">
+                {{showEditOptions ? 'Done' : 'Edit'}}
+              </ion-button>
+            </div>
+            <ng-container *ngIf="dbService.tags$ | async as tags">
+              <div *ngFor="let tag of tags" class="flex-line">
+                <p>{{ tags | json}}</p>
+                <ion-menu-toggle>
+                  <ion-item routerDirection="root" routerLink="folder/memo-list" [queryParams]="{tag: tag.name}"
+                    lines="none" mode="ios" detail="false" routerLinkActive="selected">
+                    <ion-icon slot="start" name="pricetag"></ion-icon>
+                    <ion-label>{{ tag.name }}</ion-label>
+                  </ion-item>
+                </ion-menu-toggle>
+                <ion-button *ngIf="showEditOptions" (click)="deleteTag(tag)">
+                  <ion-icon name="trash-outline" color="danger"></ion-icon>
+                </ion-button>
+              </div>
+            </ng-container>
+
+
+          </ion-list>
+        </ng-container>
       </ion-content>
     </ion-menu>
-    <ion-router-outlet id="main-content"></ion-router-outlet>
+    <ion-router-outlet id="main-content" animated="false"></ion-router-outlet>
   </ion-split-pane>
 </ion-app>
